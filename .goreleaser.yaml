@@ -1,0 +1,39 @@
+before:
+  hooks:
+    - go mod download
+builds:
+  - id: doclogs
+    main: .
+    binary: doclogs
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm
+      - arm64
+    goarm: [6, 7]
+archives:
+  - id: doclogs-archive
+    name_template: |-
+      doclogs_{{ .Tag }}_{{ .Os }}_{{ .Arch -}}
+      {{- with .Arm -}}
+        {{- if (eq . "6") -}}hf
+        {{- else -}}v{{- . -}}
+        {{- end -}}
+      {{- end -}}
+    builds:
+      - doclogs
+    replacements:
+      386: i386
+      amd64: x86_64
+    format_overrides:
+      - goos: windows
+        format: zip
+    files: ["LICENSE"]
+checksum:
+  name_template: "checksums.txt"
+  algorithm: sha256
