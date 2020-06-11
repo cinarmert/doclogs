@@ -5,6 +5,8 @@ import (
 	"github.com/gdamore/tcell"
 	"github.com/pkg/errors"
 	"github.com/rivo/tview"
+	log "github.com/sirupsen/logrus"
+	"os"
 	"sync"
 )
 
@@ -72,9 +74,8 @@ func (lm *LayoutManager) Run() {
 		go session.ReadLogs(&wg, tv)
 	}
 
-	// ToDo: consider running ui loop in main thread
-	go lm.App.SetRoot(lm.Grid, true).EnableMouse(true).Run()
-
-	wg.Wait()
-	lm.App.Stop()
+	if err := lm.App.SetRoot(lm.Grid, true).EnableMouse(true).Run(); err != nil {
+		log.Fatalf("could not init ui: %v", err)
+		os.Exit(1)
+	}
 }

@@ -11,6 +11,7 @@ import (
 	"io/ioutil"
 	"strings"
 	"testing"
+	"time"
 )
 
 type logfn func(string, types.ContainerLogsOptions) (io.ReadCloser, error)
@@ -56,7 +57,8 @@ func TestLayoutManager_Run(t *testing.T) {
 				Grid:     tview.NewGrid(),
 				Sessions: tt.sessions,
 			}
-			lm.Run()
+			go lm.Run()
+			time.Sleep(time.Millisecond * 300)
 		})
 	}
 }
