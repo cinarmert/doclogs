@@ -3,8 +3,11 @@ package ui
 import (
 	"github.com/cinarmert/doclogs/cmd/docklogs/container"
 	"github.com/gdamore/tcell"
+	"github.com/mattn/go-isatty"
 	"github.com/pkg/errors"
 	"github.com/rivo/tview"
+	log "github.com/sirupsen/logrus"
+	"os"
 	"sync"
 )
 
@@ -68,13 +71,17 @@ func (lm *LayoutManager) Run() {
 	for i, session := range lm.Sessions {
 		wg.Add(1)
 		tv := lm.createTextView(session.Name)
-		lm.Grid.AddItem(tv, i, 0, 1, 1, 0, 0, true)
+		lm.Grid.AddItem(tv, i, 0, 1, 1, 0, 0, false)
 		go session.ReadLogs(&wg, tv)
 	}
 
-	// ToDo: consider running ui loop in main thread
-	go lm.App.SetRoot(lm.Grid, true).EnableMouse(true).Run()
+	if !isatty.IsTerminal(os.Stdout.Fd()) {
+		log.Warnf("doclogs is only available in a tty environment")
+		return
+	}
 
-	wg.Wait()
-	lm.App.Stop()
+	if err := lm.App.SetRoot(lm.Grid, true).Run(); err != nil {
+		log.Fatalf("could not init ui: %v", err)
+		os.Exit(1)
+	}
 }

@@ -11,6 +11,7 @@ require (
 	github.com/docker/go-units v0.4.0 // indirect
 	github.com/gdamore/tcell v1.3.0
 	github.com/gorilla/mux v1.7.4 // indirect
+	github.com/mattn/go-isatty v0.0.12
 	github.com/moby/term v0.0.0-20200507201656-73f35e472e8f // indirect
 	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect

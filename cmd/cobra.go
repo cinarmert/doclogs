@@ -21,7 +21,6 @@ var rootCmd = &cobra.Command{
 
 func init() {
 	rootCmd.PersistentFlags().BoolP("follow", "f", false, "follow the stream of logs")
-	rootCmd.PersistentFlags().BoolP("output", "o", false, "output the logs into files (filenames will be of the form <CONTAINERNAME_{TIMESTAMP}.txt>)")
 	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "print debug logs")
 	log.SetLevel(log.WarnLevel)
 }
@@ -29,7 +28,8 @@ func init() {
 func run(cmd *cobra.Command, args []string) {
 	ctx := context.Background()
 	if len(args) == 0 {
-		fmt.Println("No docker container provided")
+		fmt.Println("No docker container provided\n ")
+		cmd.Help()
 		os.Exit(1)
 	}
 
@@ -40,7 +40,7 @@ func run(cmd *cobra.Command, args []string) {
 	}
 
 	if err := op.Run(ctx); err != nil {
-		log.Errorf("could not get container logs: %v", err.Error())
+		log.Errorf("could not get container logs, use -v flag to enable verbose logs")
 
 		if v, _ := cmd.Flags().GetBool("verbose"); v {
 			log.Errorf("[DEBUG]: %+v\n", err)

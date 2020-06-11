@@ -11,7 +11,6 @@ import (
 
 type LogOp struct {
 	Follow     bool
-	FileOut    bool
 	Containers []string
 }
 
@@ -44,10 +43,12 @@ func (l *LogOp) Run(ctx context.Context) error {
 }
 
 // report is executed when the process is about to end to
-// inform about the condition of the given containers.
+// inform about the errored containers.
 func (l *LogOp) report(sessions []*container.Session) {
 	for _, s := range sessions {
-		fmt.Printf("container %s status: %s\n", s.Name, s.Status.String())
+		if s.Status == container.Errored {
+			fmt.Printf("container \"%s\" status: %s\n", s.Name, s.Status.String())
+		}
 	}
 }
 

@@ -18,18 +18,8 @@ func parseArguments(flags *pflag.FlagSet, args ...string) (Op, error) {
 		return nil, errors.Wrap(err, "could not parse follow flag")
 	}
 
-	out, err := flags.GetBool("output")
-	if err != nil {
-		return nil, errors.Wrap(err, "could not parse output flag")
-	}
-
-	if follow && out {
-		return nil, errors.New("output and follow cannot be given at the same time")
-	}
-
 	return &docklogs.LogOp{
 		Follow:     follow,
-		FileOut:    out,
 		Containers: args,
 	}, nil
 }

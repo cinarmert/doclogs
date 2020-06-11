@@ -40,7 +40,6 @@ func Test_runCrashOnInvalidCobraCommand(t *testing.T) {
 func Test_runCrashOnDockerNotRunning(t *testing.T) {
 	c := &cobra.Command{}
 	c.PersistentFlags().BoolP("follow", "f", false, "follow the stream of logs")
-	c.PersistentFlags().BoolP("output", "o", false, "output the logs into files (filenames will be of the form <CONTAINERNAME_{TIMESTAMP}.txt>)")
 	c.PersistentFlags().BoolP("verbose", "v", false, "print debug logs")
 	if os.Getenv("SUBPROCESS_CRASHER") == "1" {
 		run(c, []string{"aa"})
