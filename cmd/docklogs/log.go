@@ -11,7 +11,6 @@ import (
 
 type LogOp struct {
 	Follow     bool
-	FileOut    bool
 	Containers []string
 }
 

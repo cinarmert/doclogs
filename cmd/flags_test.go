@@ -12,20 +12,12 @@ func Test_parseArgs(t *testing.T) {
 	err := followFs.Parse([]string{"-f"})
 	assert.NilError(t, err)
 
-	outputFs := createFlagSetTemplate()
-	err = outputFs.Parse([]string{"-o"})
-	assert.NilError(t, err)
-
 	verboseFs := createFlagSetTemplate()
 	err = verboseFs.Parse([]string{"-v"})
 
 	unknownFs := createFlagSetTemplate()
 	err = unknownFs.Parse([]string{"-q"})
 	assert.Check(t, err != nil, "err should not be nil for invalid args")
-
-	followOutFs := createFlagSetTemplate()
-	err = followOutFs.Parse([]string{"-f", "-o"})
-	assert.NilError(t, err)
 
 	invalidFs := pflag.NewFlagSet("doclogs flagset", pflag.ContinueOnError)
 
@@ -54,11 +46,6 @@ func Test_parseArgs(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name:    "only output in flags",
-			args:    args{flags: outputFs},
-			wantErr: false,
-		},
-		{
 			name:    "only verbose in flags",
 			args:    args{flags: verboseFs},
 			wantErr: false,
@@ -67,11 +54,6 @@ func Test_parseArgs(t *testing.T) {
 			name:    "unknown flags in flagset",
 			args:    args{flags: unknownFs},
 			wantErr: false,
-		},
-		{
-			name:    "follow and out in flagset",
-			args:    args{flags: followOutFs},
-			wantErr: true,
 		},
 		{
 			name:    "invalid fs",
@@ -86,8 +68,6 @@ func Test_parseArgs(t *testing.T) {
 				t.Errorf("parseArguments() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-
-			//okw, tasd := got.(*tt.want)
 		})
 	}
 }
@@ -95,7 +75,6 @@ func Test_parseArgs(t *testing.T) {
 func createFlagSetTemplate() *pflag.FlagSet {
 	fs := pflag.NewFlagSet("doclogs flagset", pflag.ContinueOnError)
 	fs.BoolP("follow", "f", false, "")
-	fs.BoolP("output", "o", false, "")
 	fs.BoolP("verbose", "v", false, "")
 
 	return fs
