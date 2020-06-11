@@ -42,8 +42,16 @@ func (lm *LayoutManager) SetSessions(sessions []*container.Session) *LayoutManag
 
 func (lm *LayoutManager) SetGrid() *LayoutManager {
 	n := len(lm.Sessions)
+	rows := (n + 1) / 2
+	cols := 2
+
+	if n == 1 {
+		cols = 1
+	}
+
 	grid := tview.NewGrid().
-		SetRows(make([]int, n)...).
+		SetRows(make([]int, rows)...).
+		SetColumns(make([]int, cols)...).
 		SetBorders(true)
 
 	lm.Grid = grid
@@ -67,11 +75,16 @@ func (lm *LayoutManager) createTextView(title string) *tview.TextView {
 
 func (lm *LayoutManager) Run() {
 	var wg sync.WaitGroup
-
 	for i, session := range lm.Sessions {
 		wg.Add(1)
 		tv := lm.createTextView(session.Name)
-		lm.Grid.AddItem(tv, i, 0, 1, 1, 0, 0, false)
+
+		row, col, colSpan := i/2, i%2, 1
+		if i == len(lm.Sessions)-1 && len(lm.Sessions)%2 == 1 {
+			colSpan = 2
+		}
+
+		lm.Grid.AddItem(tv, row, col, 1, colSpan, 0, 0, false)
 		go session.ReadLogs(&wg, tv)
 	}
 
