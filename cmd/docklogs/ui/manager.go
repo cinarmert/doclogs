@@ -85,7 +85,8 @@ func (lm *LayoutManager) Run() {
 		}
 
 		lm.Grid.AddItem(tv, row, col, 1, colSpan, 0, 0, false)
-		go session.ReadLogs(&wg, tv)
+
+		go session.ReadLogs(&wg, tview.ANSIWriter(tv))
 	}
 
 	if !isatty.IsTerminal(os.Stdout.Fd()) {
@@ -93,7 +94,7 @@ func (lm *LayoutManager) Run() {
 		return
 	}
 
-	if err := lm.App.SetRoot(lm.Grid, true).Run(); err != nil {
+	if err := lm.App.SetRoot(lm.Grid, true).EnableMouse(true).Run(); err != nil {
 		log.Fatalf("could not init ui: %v", err)
 		os.Exit(1)
 	}
