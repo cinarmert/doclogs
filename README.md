@@ -5,4 +5,19 @@
 # `doclogs`
 
 **`doclogs`** helps you view multiple docker container logs in the same terminal session.
+
 ![doclogs demo gif](img/doclogs-demo.gif)
+
+**`doclogs`** is a minimalistic cli tool. See the usage below!
+
+```
+Doclogs provides a user interface for the logs from multiple docker containers.
+
+Usage:
+  doclogs [OPTIONS] [CONTAINERS...] [flags]
+
+Flags:
+  -f, --follow    follow the stream of logs
+  -h, --help      help for doclogs
+  -v, --verbose   print debug logs
+```
