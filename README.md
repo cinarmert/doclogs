@@ -21,3 +21,16 @@ Flags:
   -h, --help      help for doclogs
   -v, --verbose   print debug logs
 ```
+
+# Installation
+
+**`doclogs`** is available on macOS, Linux and Windows. You can find the binaries in [**Releases &rarr;**](https://github.com/cinarmert/doclogs/releases).
+
+## Brew
+
+**`doclogs`** is already available in Homebrew for an easier installation.
+
+```
+brew tap cinarmert/doclogs
+brew install doclogs
+```
