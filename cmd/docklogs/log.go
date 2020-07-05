@@ -54,7 +54,7 @@ func (l *LogOp) report(sessions []*container.Session) {
 
 // createContainerSessions creates sessions with given container names.
 // It silently discards the dead containers with given name.
-func (l *LogOp) createContainerSessions(ctx context.Context, client DockerCli) []*container.Session {
+func (l *LogOp) createContainerSessions(ctx context.Context, client DockerAPIClient) []*container.Session {
 	var containers []*container.Session
 	for _, name := range l.Containers {
 		if client.IsContainerLive(name) {
