@@ -19,7 +19,7 @@ type LayoutManager struct {
 
 func NewManagerForSessions(sessions []*container.Session) (*LayoutManager, error) {
 	if len(sessions) == 0 {
-		return nil, errors.New("could not create layour manager: no sessions given")
+		return nil, errors.New("could not create layout manager: no sessions given")
 	}
 
 	lm := (&LayoutManager{}).

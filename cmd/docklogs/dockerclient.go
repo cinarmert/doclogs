@@ -8,9 +8,9 @@ import (
 	"os"
 )
 
-// DockerCli extends the docker.APIClient with IsContainerLive function
+// DockerAPIClient extends the docker.APIClient with IsContainerLive function
 // in order to reduce the time to check if a container is live.
-type DockerCli interface {
+type DockerAPIClient interface {
 	docker.APIClient
 	IsContainerLive(string) bool
 }
