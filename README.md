@@ -34,3 +34,7 @@ Flags:
 brew tap cinarmert/doclogs
 brew install doclogs
 ```
+
+# Similar Projects
+
+- [klogs](https://github.com/cinarmert/klogs)
