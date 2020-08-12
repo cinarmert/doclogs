@@ -34,7 +34,7 @@ func TestLayoutManager_Run(t *testing.T) {
 		},
 	}
 
-	s := container.NewContainerSession(f, context.TODO(), "test", false)
+	s := container.NewContainerSession(f, context.TODO(), "test", false, 100)
 
 	tests := []struct {
 		name     string

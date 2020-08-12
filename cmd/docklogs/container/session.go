@@ -7,6 +7,7 @@ import (
 	docker "github.com/docker/docker/client"
 	"github.com/pkg/errors"
 	"io"
+	"strconv"
 	"sync"
 )
 
@@ -17,16 +18,18 @@ type Session struct {
 	Status       Status
 	dockerClient docker.APIClient
 	follow       bool
+	tail         int
 	ctx          context.Context
 }
 
 // NewContainerSession creates a new session for a given container name.
-func NewContainerSession(dockerClient docker.APIClient, ctx context.Context, name string, follow bool) *Session {
+func NewContainerSession(dockerClient docker.APIClient, ctx context.Context, name string, follow bool, tail int) *Session {
 	return &Session{
 		Name:         name,
 		dockerClient: dockerClient,
 		ctx:          ctx,
 		follow:       follow,
+		tail:         tail,
 	}
 }
 
@@ -38,7 +41,7 @@ func (c *Session) ReadLogs(wg *sync.WaitGroup, w io.Writer) error {
 		ShowStderr: true,
 		Timestamps: false,
 		Follow:     c.follow,
-		Tail:       "all",
+		Tail:       strconv.FormatInt(int64(c.tail), 10),
 	})
 	c.Status = Live
 

@@ -77,7 +77,7 @@ func TestNewContainerSession(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got := NewContainerSession(tt.args.dockerClient, tt.args.ctx, tt.args.name, tt.args.follow)
+			got := NewContainerSession(tt.args.dockerClient, tt.args.ctx, tt.args.name, tt.args.follow, 100)
 			assert.Equal(t, got.Name, tt.want.Name)
 			assert.Equal(t, got.follow, tt.want.follow)
 		})
@@ -121,7 +121,7 @@ func TestSession_ReadLogs(t *testing.T) {
 				logFunc: tt.logFunc,
 			}
 
-			s := NewContainerSession(f, context.TODO(), "test", false)
+			s := NewContainerSession(f, context.TODO(), "test", false, 100)
 			wg := &sync.WaitGroup{}
 			wg.Add(1)
 			err := s.ReadLogs(wg, tt.out)
