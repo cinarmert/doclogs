@@ -21,6 +21,7 @@ var rootCmd = &cobra.Command{
 
 func init() {
 	rootCmd.PersistentFlags().BoolP("follow", "f", false, "follow the stream of logs")
+	rootCmd.PersistentFlags().IntP("tail", "t", 100, "Number of lines to start tailing from")
 	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "print debug logs")
 	log.SetLevel(log.WarnLevel)
 }

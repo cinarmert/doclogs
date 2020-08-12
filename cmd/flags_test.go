@@ -12,6 +12,10 @@ func Test_parseArgs(t *testing.T) {
 	err := followFs.Parse([]string{"-f"})
 	assert.NilError(t, err)
 
+	tailFs := createFlagSetTemplate()
+	err = tailFs.Parse([]string{"-t5"})
+	assert.NilError(t, err)
+
 	verboseFs := createFlagSetTemplate()
 	err = verboseFs.Parse([]string{"-v"})
 
@@ -46,6 +50,11 @@ func Test_parseArgs(t *testing.T) {
 			wantErr: false,
 		},
 		{
+			name:    "only tail in flags",
+			args:    args{flags: tailFs},
+			wantErr: false,
+		},
+		{
 			name:    "only verbose in flags",
 			args:    args{flags: verboseFs},
 			wantErr: false,
@@ -75,6 +84,7 @@ func Test_parseArgs(t *testing.T) {
 func createFlagSetTemplate() *pflag.FlagSet {
 	fs := pflag.NewFlagSet("doclogs flagset", pflag.ContinueOnError)
 	fs.BoolP("follow", "f", false, "")
+	fs.IntP("tail", "t", 100, "")
 	fs.BoolP("verbose", "v", false, "")
 
 	return fs

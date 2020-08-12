@@ -12,6 +12,7 @@ import (
 type LogOp struct {
 	Follow     bool
 	Containers []string
+	Tail       int
 }
 
 // Run is the entrypoint for fetching the logs
@@ -59,7 +60,7 @@ func (l *LogOp) createContainerSessions(ctx context.Context, client DockerAPICli
 	for _, name := range l.Containers {
 		if client.IsContainerLive(name) {
 
-			tmp := container.NewContainerSession(client, ctx, name, l.Follow)
+			tmp := container.NewContainerSession(client, ctx, name, l.Follow, l.Tail)
 			containers = append(containers, tmp)
 		} else {
 			log.Warnf("container \"%s\" does not appear to be live, skipping", name)
