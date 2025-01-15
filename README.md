@@ -8,7 +8,7 @@
 
 ![doclogs demo gif](img/doclogs-demo.gif)
 
-**`doclogs`** is a minimalistic cli tool. See the usage below!
+**`doclogs`** is a minimalistic cli tool, see the usage below!
 
 ```
 Doclogs provides a user interface for the logs from multiple docker containers.
